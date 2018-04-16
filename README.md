@@ -9,7 +9,7 @@ Like e.g. the number of posts, followers, and the tags of the the posts
 #### Getting started
 Just do:
 ```bash
-git clone https://github.com/timgrossmann/instagram-profilecrawl.git
+git clone https://github.com/johnnychrome/instagram-profilecrawl.git
 ```
 
 It uses selenium to get all the information so install it with:
@@ -78,11 +78,5 @@ The two commands can simply be triggered using `crontab` (make sure to trigger `
 }
 ```
 
-The script also collects usernames of users who commented on the posts and saves it in ./profiles/{username}_commenters.txt file, sorted by comment frequency.
-
-#### With the help of [Wordcloud](https://github.com/amueller/word_cloud) you could do something like that with your used tags
-![](http://i65.tinypic.com/2nkrrtg.png)
-
-<hr />
 
 ###### Have Fun & Feel Free to report any issues
