@@ -159,6 +159,9 @@ def extract_information(browser, username, limit_amount):
           breaking = 0
       if breaking > 3:
           print ("\nNot getting any more posts, ending scrolling.") 
+          with open('not_completed', 'a') as out:
+         	  out.write(alias_name + ': Freeze at ' + str(len(links2)) + '/' + str(num_of_posts) + '\n') 
+          out.close()
           sleep(2)
           break
       previouslen = len(links2)   
@@ -222,8 +225,5 @@ def extract_information(browser, username, limit_amount):
   
   
   
-  
-  
-  
-  
+    
   return information
