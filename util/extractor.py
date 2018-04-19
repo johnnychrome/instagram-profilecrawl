@@ -113,7 +113,7 @@ def extract_information(browser, username, limit_amount):
     num_of_posts = min(limit_amount, num_of_posts)
   except:
     print ("►►Error: Couldn't get user profile.\nTerminating", "\n")
-    quit()
+    #quit()
   prev_divs = browser.find_elements_by_class_name('_70iju')
 
 
