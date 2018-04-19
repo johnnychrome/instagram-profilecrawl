@@ -185,12 +185,12 @@ def extract_information(browser, username, limit_amount):
 
   counter = 1  
   
-  
+  print ("\n\n")
   
   for link in links2:
     
     #print ("\n", counter , "/", len(links2))
-    print ("\nScrapping post ", counter , "/", len(links2), end="\r")
+    print ("Scrapping post ", counter , "/", len(links2), end="\r")
     counter = counter + 1
     
     #print ("\nScrapping link: ", link)
