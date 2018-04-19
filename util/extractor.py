@@ -21,8 +21,8 @@ def get_user_info(browser):
   except:
     print ("\nBio is empty")
     bio = ""
-  print ("\nalias name: ", alias_name)
-  print ("\nbio: ", bio,"\n")
+  print ("\nAlias name: ", alias_name)
+  print ("\nBio: ", bio,"\n")
   prof_img = img_container.find_element_by_tag_name('img').get_attribute('src')
   num_of_posts = int(infos[0].text.split(' ')[0].replace(',', ''))
   followers = infos[1].text.split(' ')[0].replace(',', '').replace('.', '')
@@ -185,7 +185,7 @@ def extract_information(browser, username, limit_amount):
 
   counter = 1  
   
-  print ("\n\n")
+  print ("\n")
   
   for link in links2:
     
