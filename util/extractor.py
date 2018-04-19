@@ -114,11 +114,11 @@ def extract_information(browser, username, limit_amount):
   except:
     print ("►►Error: Couldn't get user profile.\nTerminating", "\n")
     with open('not_completed', 'a') as out:
-      out.write(alias_name + ": Couldn't get user profile\n") 
+      out.write(username + ": Couldn't get user profile\n") 
     out.close()
     inf_err = {
-              'alias': alias_name,
-              'username': "ERROR",
+              'alias': "ERROR,
+              'username': username,
               'bio': "ERROR",
               'prof_img': "ERROR",
               'num_of_posts': "ERROR",
