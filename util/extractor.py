@@ -19,10 +19,10 @@ def get_user_info(browser):
     bio = container.find_element_by_class_name('_tb97a')\
                         .find_element_by_tag_name('span').text                      
   except:
-    print ("\nBio is empty")
+    print ("Bio is empty", "\n")
     bio = ""
-  print ("\nAlias name: ", alias_name)
-  print ("\nBio: ", bio,"\n")
+  print ("►►Alias name: ", alias_name, "\n")
+  print ("►►Bio: ", bio, "\n")
   prof_img = img_container.find_element_by_tag_name('img').get_attribute('src')
   num_of_posts = int(infos[0].text.split(' ')[0].replace(',', ''))
   followers = infos[1].text.split(' ')[0].replace(',', '').replace('.', '')
@@ -112,7 +112,7 @@ def extract_information(browser, username, limit_amount):
         limit_amount = 999999
     num_of_posts = min(limit_amount, num_of_posts)
   except:
-    print ("\nError: Couldn't get user profile.\nTerminating")
+    print ("►►Error: Couldn't get user profile.\nTerminating", "\n")
     quit()
   prev_divs = browser.find_elements_by_class_name('_70iju')
 
@@ -136,7 +136,7 @@ def extract_information(browser, username, limit_amount):
     previouslen = 0
     breaking = 0
     
-    print ("Getting only first", num_of_posts, "posts only, if you want to change this limit, change limit_amount value in crawl_profile.py\n")  
+    #print ("►Getting only first", num_of_posts, "posts only, if you want to change this limit, change limit_amount value in crawl_profile.py", "\n")  
     while (len(links2) < num_of_posts):
       
       prev_divs = browser.find_elements_by_tag_name('main')      
@@ -147,19 +147,19 @@ def extract_information(browser, username, limit_amount):
         if "/p/" in link:
           links2.append(link) 
       links2 = list(set(links2))   
-      print ("Scrolling profile ", len(links2), "/", num_of_posts, end="\r")
+      print ("►►Scrolling profile: ", len(links2), "/", num_of_posts, end="\r")
       body_elem.send_keys(Keys.END)
       sleep(1.5)
    
       ##remove bellow part to never break the scrolling script before reaching the num_of_posts
       if (len(links2) == previouslen):
           breaking += 1
-          print ("\n\nbreaking in ", 5-breaking, "...\nIf you believe this is only caused by slow internet, increase sleep time in line 149 in extractor.py\n")
+          print ("►►\nbreaking in ", 5-breaking, "...\n►►If you believe this is only caused by slow internet, increase sleep time in line 149 in extractor.py","\n")
           sleep(2.5)
       else:
           breaking = 0
       if breaking > 4:
-          print ("\nNot getting any more posts, ending scrolling and scraping.\n") 
+          print ("\n►►Not getting any more posts, ending scrolling and scraping.","\n") 
           with open('not_completed', 'a') as out:
          	  out.write(alias_name + ': Freeze at ' + str(len(links2)) + '/' + str(num_of_posts) + '\n') 
           out.close()
@@ -179,7 +179,7 @@ def extract_information(browser, username, limit_amount):
       ##
 
   except NoSuchElementException as err:
-    print('- Something went terribly wrong\n')
+    print('►►Something went terribly wrong\n')
 
   post_infos = []
 
@@ -190,7 +190,7 @@ def extract_information(browser, username, limit_amount):
   for link in links2:
     
     #print ("\n", counter , "/", len(links2))
-    print ("Scrapping post ", counter , "/", len(links2), end="\r")
+    print ("►►Scrapping post: ", counter , "/", len(links2), end="\r")
     counter = counter + 1
     
     #print ("\nScrapping link: ", link)
@@ -207,7 +207,7 @@ def extract_information(browser, username, limit_amount):
       })
      
     except NoSuchElementException:
-      print('- Could not get information from post: ' + link)
+      print('►►Could not get information from post: ' + link, "\n")
 
 
 
