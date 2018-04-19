@@ -154,7 +154,7 @@ def extract_information(browser, username, limit_amount):
       ##remove bellow part to never break the scrolling script before reaching the num_of_posts
       if (len(links2) == previouslen):
           breaking += 1
-          print ("►►breaking in ", 5-breaking, "...\n►►If you believe this is only caused by slow internet, increase sleep time in line 149 in extractor.py","\n")
+          print ("\n►►Breaking in ", 5-breaking, "... (If you believe this is caused by slow internet, increase sleep time in line 152 in extractor.py)","\n")
           sleep(2.5)
       else:
           breaking = 0
