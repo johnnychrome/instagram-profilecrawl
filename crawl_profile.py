@@ -36,7 +36,7 @@ try:
       json.dump(information, fp)
                                                      
     print ("\nFinished. The json file was saved in profiles directory.\n")
-    print ("\n____________________________________________________________\n\n")
+    print ("____________________________________________________________\n\n\n")
 
 except KeyboardInterrupt:
   print('Aborted...')
