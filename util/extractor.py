@@ -113,7 +113,24 @@ def extract_information(browser, username, limit_amount):
     num_of_posts = min(limit_amount, num_of_posts)
   except:
     print ("►►Error: Couldn't get user profile.\nTerminating", "\n")
-    #quit()
+    with open('not_completed', 'a') as out:
+      out.write(alias_name + ": Couldn't get user profile\n") 
+    out.close()
+    inf_err = {
+              'alias': alias_name,
+              'username': "ERROR",
+              'bio': "ERROR",
+              'prof_img': "ERROR",
+              'num_of_posts': "ERROR",
+              'followers': "ERROR",
+              'following': "ERROR",
+              'posts': "ERROR"     
+     }
+     return inf_err 
+    
+    
+    
+    
   prev_divs = browser.find_elements_by_class_name('_70iju')
 
 
