@@ -125,8 +125,8 @@ def extract_information(browser, username, limit_amount):
               'followers': "ERROR",
               'following': "ERROR",
               'posts': "ERROR"     
-     }
-     return inf_err 
+    }
+    return inf_err 
     
     
     
