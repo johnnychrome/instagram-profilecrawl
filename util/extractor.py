@@ -147,7 +147,7 @@ def extract_information(browser, username, limit_amount):
         if "/p/" in link:
           links2.append(link) 
       links2 = list(set(links2))   
-      print ("►►Scrolling profile: ", len(links2), "/", num_of_posts, end="\r")
+      print ("►►Scrolling posts: ", len(links2), "/", num_of_posts, end="\r")
       body_elem.send_keys(Keys.END)
       sleep(1.5)
    
@@ -190,7 +190,7 @@ def extract_information(browser, username, limit_amount):
   for link in links2:
     
     #print ("\n", counter , "/", len(links2))
-    print ("►►Scrapping post: ", counter , "/", len(links2), end="\r")
+    print ("►►Scrapping posts: ", counter , "/", len(links2), end="\r")
     counter = counter + 1
     
     #print ("\nScrapping link: ", link)
