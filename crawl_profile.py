@@ -35,7 +35,7 @@ try:
     with open('./profiles/' + username + '.json', 'w') as fp:
       json.dump(information, fp)
                                                      
-    print ("\nFinished. The json file was saved in profiles directory.\n")
+    print ("\n\nFinished. The json file was saved in profiles directory.","\n")
     print ("____________________________________________________________\n\n")
 
 except KeyboardInterrupt:
