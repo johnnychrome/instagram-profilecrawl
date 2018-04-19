@@ -29,7 +29,7 @@ try:
   usernames = get_all_user_names()
 
   for username in usernames:
-    print('Extracting information from ' + username)
+    print("\nExtracting information from ", username, "\n")
     information = extract_information(browser, username, limit_amount)
 
     with open('./profiles/' + username + '.json', 'w') as fp:
