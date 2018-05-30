@@ -1,9 +1,10 @@
 """Methods to extract the data for the given usernames profile"""
 from time import sleep
 from re import findall
-
+import math
 from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.common.keys import Keys
+import requests
 
 def get_user_info(browser):
   """Get the basic user info from the profile screen"""
@@ -45,6 +46,38 @@ def extract_post_info(browser):
   """Get the information from the current post"""
 
   post = browser.find_element_by_class_name('_622au')
+
+  # Get caption
+  caption = ''
+  try:
+    username = post.find_element_by_class_name('_iadoq').text
+    caption_username = post.find_element_by_class_name('_b0tqa').find_element_by_class_name('_ezgzd').find_element_by_tag_name('a').text
+    if username == caption_username:
+        caption = post.find_element_by_class_name('_b0tqa').find_element_by_class_name('_ezgzd').find_element_by_tag_name('span').text
+  except:
+    pass
+
+  # Get location details
+  location_url = ''
+  location_name = ''
+  location_id = 0
+  lat = ''
+  lng = ''
+  try:
+    # Location url and name
+    x = post.find_element_by_class_name('_60iqg').find_elements_by_tag_name('a')
+    location_url = x[0].get_attribute('href')
+    location_name = x[0].text
+
+    # Longitude and latitude
+    location_id = location_url.strip('https://www.instagram.com/explore/locations/').split('/')[0]
+    url = 'https://www.instagram.com/explore/locations/' + location_id + '/?__a=1'
+    response = requests.get(url)
+    data = response.json()
+    lat = data['graphql']['location']['lat']
+    lng = data['graphql']['location']['lng']
+  except:
+    pass
 
   #print('BEFORE IMG')
 
@@ -94,10 +127,10 @@ def extract_post_info(browser):
         comments[1].find_element_by_tag_name('button').click()
         comment_list = post.find_element_by_tag_name('ul')
         comments = comment_list.find_elements_by_tag_name('li')
-     
-    
-    
-    
+      
+	  
+	  
+	  
         
       tags = comments[0].text + ' ' + comments[1].text
     else:
@@ -105,7 +138,7 @@ def extract_post_info(browser):
 
     tags = findall(r'#[A-Za-z0-9]*', tags)
     
-  return img, tags, int(likes), int(len(comments) - 1), date
+    return caption, location_url, location_name, location_id, lat, lng, img, tags, int(likes), int(len(comments) - 1), date
 
                                                   
 def extract_information(browser, username, limit_amount):
@@ -134,11 +167,8 @@ def extract_information(browser, username, limit_amount):
               'following': "ERROR",
               'posts': "ERROR"     
     }
-    return inf_err 
-    
-    
-    
-    
+	return inf_err
+	
   prev_divs = browser.find_elements_by_class_name('_70iju')
 
 
@@ -161,7 +191,7 @@ def extract_information(browser, username, limit_amount):
     previouslen = 0
     breaking = 0
     
-    #print ("►Getting only first", num_of_posts, "posts only, if you want to change this limit, change limit_amount value in crawl_profile.py", "\n")  
+	#print ("►Getting only first", num_of_posts, "posts only, if you want to change this limit, change limit_amount value in crawl_profile.py", "\n")  
     while (len(links2) < num_of_posts):
       
       prev_divs = browser.find_elements_by_tag_name('main')      
@@ -179,15 +209,15 @@ def extract_information(browser, username, limit_amount):
       ##remove bellow part to never break the scrolling script before reaching the num_of_posts
       if (len(links2) == previouslen):
           breaking += 1
-          print ("\n►►Breaking in ", 5-breaking, "... (If you believe this is caused by slow internet, increase sleep time in line 152 in extractor.py)","\n")
-          sleep(2.5)
-      else:
+		   print ("\n►►Breaking in ", 5-breaking, "... (If you believe this is caused by slow internet, increase sleep time in line 152 in extractor.py)","\n")
+		   sleep(2.5)
+	  else:
           breaking = 0
       if breaking > 4:
-          print ("►►Not getting any more posts, ending scrolling and scraping.","\n") 
-          with open('not_completed', 'a') as out:
+          print ("►►Not getting any more posts, ending scrolling and scraping.","\n")
+		  with open('not_completed', 'a') as out:
          	  out.write(alias_name + ': Freeze at ' + str(len(links2)) + '/' + str(num_of_posts) + '\n') 
-          out.close()
+	      out.close()
           sleep(2)
           inf_err = {
               'alias': alias_name,
@@ -199,7 +229,7 @@ def extract_information(browser, username, limit_amount):
               'following': "ERROR",
               'posts': "ERROR"     
           }
-          return inf_err 
+		  return inf_err
       previouslen = len(links2)   
       ##
 
@@ -215,22 +245,32 @@ def extract_information(browser, username, limit_amount):
   for link in links2:
     
     #print ("\n", counter , "/", len(links2))
-    print ("►►Scrapping posts: ", counter , "/", len(links2), end="\r")
+	print ("►►Scrapping posts: ", counter , "/", len(links2), end="\r")
     counter = counter + 1
     
     #print ("\nScrapping link: ", link)
     browser.get(link)
     try:
-      img, tags, likes, comments, date = extract_post_info(browser)
+      caption, location_url, location_name, location_id, lat, lng, img, tags, likes, comments, date = extract_post_info(browser)
+
+      location = {
+        'location_url': location_url,
+        'location_name': location_name,
+        'location_id': location_id,
+        'latitude': lat,
+        'longitude': lng,
+      }
 
       post_infos.append({
+        'caption': caption,
+        'location': location,
         'img': img,
         'date': date,
         'tags': tags,
         'likes': likes,
         'comments': comments
       })
-     
+      
     except NoSuchElementException:
       print('►►Could not get information from post: ' + link, "\n")
 
@@ -245,22 +285,6 @@ def extract_information(browser, username, limit_amount):
     'followers': followers,
     'following': following,
     'posts': post_infos     
-  }
+  }   
 
-  
-  
-
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-    
-  return information
+return information
