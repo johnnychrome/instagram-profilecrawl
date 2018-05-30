@@ -36,8 +36,8 @@ try:
       fp.write(json.dumps(information, indent=4))
                                                      
        
-	print ("\n\nFinished. The json file was saved in profiles directory.\n")
-	print ("____________________________________________________________\n\n")
+    print ("\n\nFinished. The json file was saved in profiles directory.\n")
+    print ("____________________________________________________________\n\n")
 
 except KeyboardInterrupt:
   print('Aborted...')
