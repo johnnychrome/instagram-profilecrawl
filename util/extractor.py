@@ -116,7 +116,6 @@ def extract_post_info(browser):
   date = post.find_element_by_tag_name('time').get_attribute("datetime")
   #print ("date is ", date)  
   
-  
   if post.find_elements_by_tag_name('ul'):
     comment_list = post.find_element_by_tag_name('ul')
     comments = comment_list.find_elements_by_tag_name('li')
@@ -127,17 +126,13 @@ def extract_post_info(browser):
         comments[1].find_element_by_tag_name('button').click()
         comment_list = post.find_element_by_tag_name('ul')
         comments = comment_list.find_elements_by_tag_name('li')
-      
-	  
-	  
-	  
         
       tags = comments[0].text + ' ' + comments[1].text
     else:
       tags = comments[0].text
 
     tags = findall(r'#[A-Za-z0-9]*', tags)
-    
+    print (len(user_commented_list), " comments.")
     return caption, location_url, location_name, location_id, lat, lng, img, tags, int(likes), int(len(comments) - 1), date
 
                                                   
@@ -155,20 +150,19 @@ def extract_information(browser, username, limit_amount):
   except:
     print ("►►Error: Couldn't get user profile.\nTerminating", "\n")
     with open('not_completed', 'a') as out:
-      out.write(username + ": Couldn't get user profile\n") 
+	out.write(username + ": Couldn't get user profile\n")
     out.close()
     inf_err = {
-              'alias': "ERROR",
-              'username': username,
-              'bio': "ERROR",
-              'prof_img': "ERROR",
-              'num_of_posts': "ERROR",
-              'followers': "ERROR",
-              'following': "ERROR",
-              'posts': "ERROR"     
+        'alias': "ERROR",
+        'username': username,
+        'bio': "ERROR",
+        'prof_img': "ERROR",
+        'num_of_posts': "ERROR",
+        'followers': "ERROR",
+        'following': "ERROR",
+        'posts': "ERROR"     
     }
     return inf_err
-	
   prev_divs = browser.find_elements_by_class_name('_70iju')
 
 
@@ -191,7 +185,7 @@ def extract_information(browser, username, limit_amount):
     previouslen = 0
     breaking = 0
     
-	#print ("►Getting only first", num_of_posts, "posts only, if you want to change this limit, change limit_amount value in crawl_profile.py", "\n")  
+    #print ("►►Getting only first",12*math.ceil(num_of_posts/12),"posts only, if you want to change this limit, change limit_amount value in crawl_profile.py\n")  
     while (len(links2) < num_of_posts):
       
       prev_divs = browser.find_elements_by_tag_name('main')      
@@ -214,12 +208,12 @@ def extract_information(browser, username, limit_amount):
       else:
           breaking = 0
       if breaking > 4:
-          print ("►►Not getting any more posts, ending scrolling and scraping.","\n")
+          print ("►►Not getting any more posts, ending scrolling and scraping.","\n") 
           with open('not_completed', 'a') as out:
-         	  out.write(alias_name + ': Freeze at ' + str(len(links2)) + '/' + str(num_of_posts) + '\n') 
-	  out.close()
-          sleep(2)
-          inf_err = {
+              out.write(alias_name + ': Freeze at ' + str(len(links2)) + '/' + str(num_of_posts) + '\n') 
+          out.close()
+	  sleep(2)
+	  inf_err = {
               'alias': alias_name,
               'username': username,
               'bio': bio,
@@ -238,17 +232,14 @@ def extract_information(browser, username, limit_amount):
 
   post_infos = []
 
-  counter = 1  
-  
-  print ("\n")
+  counter = 1
   
   for link in links2:
     
     #print ("\n", counter , "/", len(links2))
-    print ("►►Scrapping posts: ", counter , "/", len(links2), end="\r")
     counter = counter + 1
     
-    #print ("\nScrapping link: ", link)
+    print ("►►Scrapping posts: ", counter , "/", len(links2), end="\r")
     browser.get(link)
     try:
       caption, location_url, location_name, location_id, lat, lng, img, tags, likes, comments, date = extract_post_info(browser)
@@ -270,7 +261,6 @@ def extract_information(browser, username, limit_amount):
         'likes': likes,
         'comments': comments
       })
-      
     except NoSuchElementException:
       print('►►Could not get information from post: ' + link, "\n")
 
@@ -285,6 +275,6 @@ def extract_information(browser, username, limit_amount):
     'followers': followers,
     'following': following,
     'posts': post_infos     
-  }   
+  }    
 
 return information
