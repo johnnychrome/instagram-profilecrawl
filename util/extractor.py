@@ -14,11 +14,9 @@ def get_user_info(browser):
 
   infos = container.find_elements_by_class_name('_t98z6')
                            
-  alias_name = container.find_element_by_class_name('_ienqf')\
-                        .find_element_by_tag_name('h1').text
+  alias_name = container.find_element_by_class_name('_ienqf').find_element_by_tag_name('h1').text
   try:
-    bio = container.find_element_by_class_name('_tb97a')\
-                        .find_element_by_tag_name('span').text                      
+    bio = container.find_element_by_class_name('_tb97a').find_element_by_tag_name('span').text                      
   except:
     print ("Bio is empty", "\n")
     bio = ""
@@ -92,8 +90,7 @@ def extract_post_info(browser):
   likes = 0
   
   if len(post.find_elements_by_tag_name('section')) > 2:
-    likes = post.find_elements_by_tag_name('section')[1]\
-            .find_element_by_tag_name('div').text
+    likes = post.find_elements_by_tag_name('section')[1].find_element_by_tag_name('div').text
     
     likes = likes.split(' ')
 
@@ -142,15 +139,14 @@ def extract_information(browser, username, limit_amount):
   browser.get('https://www.instagram.com/' + username)
 
   try:
-    alias_name, bio, prof_img, num_of_posts, followers, following \
-    = get_user_info(browser)
+    alias_name, bio, prof_img, num_of_posts, followers, following = get_user_info(browser)
     if limit_amount <1 :
         limit_amount = 999999
     num_of_posts = min(limit_amount, num_of_posts)
   except:
     print ("►►Error: Couldn't get user profile.\nTerminating", "\n")
     with open('not_completed', 'a') as out:
-	out.write(username + ": Couldn't get user profile\n")
+	    out.write(username + ": Couldn't get user profile\n")
     out.close()
     inf_err = {
         'alias': "ERROR",
@@ -203,17 +199,17 @@ def extract_information(browser, username, limit_amount):
       ##remove bellow part to never break the scrolling script before reaching the num_of_posts
       if (len(links2) == previouslen):
           breaking += 1
-	  print ("\n►►Breaking in ", 5-breaking, "... (If you believe this is caused by slow internet, increase sleep time in line 152 in extractor.py)","\n")
+          print ("\n►►Breaking in ", 5-breaking, "... (If you believe this is caused by slow internet, increase sleep time in line 152 in extractor.py)","\n")
           sleep(2.5)
       else:
           breaking = 0
       if breaking > 4:
           print ("►►Not getting any more posts, ending scrolling and scraping.","\n") 
           with open('not_completed', 'a') as out:
-              out.write(alias_name + ': Freeze at ' + str(len(links2)) + '/' + str(num_of_posts) + '\n') 
+             out.write(alias_name + ': Freeze at ' + str(len(links2)) + '/' + str(num_of_posts) + '\n') 
           out.close()
-	  sleep(2)
-	  inf_err = {
+          sleep(2)
+          inf_err = {
               'alias': alias_name,
               'username': username,
               'bio': bio,
@@ -277,4 +273,4 @@ def extract_information(browser, username, limit_amount):
     'posts': post_infos     
   }    
 
-return information
+  return information
