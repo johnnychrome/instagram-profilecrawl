@@ -22,25 +22,26 @@ browser = webdriver.Chrome('./assets/chromedriver', chrome_options=chrome_option
 limit_amount = 12000
 
 # makes sure slower connections work as well        
-print ("\nWaiting 10 sec", "\n")
+print ("Waiting 10 sec")
 browser.implicitly_wait(10)
 
 try:
   usernames = get_all_user_names()
 
   for username in usernames:
-    print("Extracting information from ", username, "\n")
+    print('Extracting information from ' + username)
     information = extract_information(browser, username, limit_amount)
 
     with open('./profiles/' + username + '.json', 'w') as fp:
-      json.dump(information, fp)
+      fp.write(json.dumps(information, indent=4))
                                                      
-    print ("\n\nFinished. The json file was saved in profiles directory.","\n")
-    print ("____________________________________________________________\n\n")
+       
+	print ("\n\nFinished. The json file was saved in profiles directory.\n")
+	print ("____________________________________________________________\n\n")
 
 except KeyboardInterrupt:
   print('Aborted...')
 
 finally:
   browser.delete_all_cookies()
-  browser.close()
+	browser.close()
