@@ -167,7 +167,7 @@ def extract_information(browser, username, limit_amount):
               'following': "ERROR",
               'posts': "ERROR"     
     }
-	return inf_err
+    return inf_err
 	
   prev_divs = browser.find_elements_by_class_name('_70iju')
 
@@ -209,15 +209,15 @@ def extract_information(browser, username, limit_amount):
       ##remove bellow part to never break the scrolling script before reaching the num_of_posts
       if (len(links2) == previouslen):
           breaking += 1
-		   print ("\n►►Breaking in ", 5-breaking, "... (If you believe this is caused by slow internet, increase sleep time in line 152 in extractor.py)","\n")
-		   sleep(2.5)
-	  else:
+	  print ("\n►►Breaking in ", 5-breaking, "... (If you believe this is caused by slow internet, increase sleep time in line 152 in extractor.py)","\n")
+          sleep(2.5)
+      else:
           breaking = 0
       if breaking > 4:
           print ("►►Not getting any more posts, ending scrolling and scraping.","\n")
-		  with open('not_completed', 'a') as out:
+          with open('not_completed', 'a') as out:
          	  out.write(alias_name + ': Freeze at ' + str(len(links2)) + '/' + str(num_of_posts) + '\n') 
-	      out.close()
+	  out.close()
           sleep(2)
           inf_err = {
               'alias': alias_name,
@@ -229,7 +229,7 @@ def extract_information(browser, username, limit_amount):
               'following': "ERROR",
               'posts': "ERROR"     
           }
-		  return inf_err
+          return inf_err
       previouslen = len(links2)   
       ##
 
@@ -245,7 +245,7 @@ def extract_information(browser, username, limit_amount):
   for link in links2:
     
     #print ("\n", counter , "/", len(links2))
-	print ("►►Scrapping posts: ", counter , "/", len(links2), end="\r")
+    print ("►►Scrapping posts: ", counter , "/", len(links2), end="\r")
     counter = counter + 1
     
     #print ("\nScrapping link: ", link)
