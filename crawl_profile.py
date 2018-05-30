@@ -44,4 +44,4 @@ except KeyboardInterrupt:
 
 finally:
   browser.delete_all_cookies()
-	browser.close()
+  browser.close()
