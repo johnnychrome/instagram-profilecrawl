@@ -233,7 +233,7 @@ def extract_information(browser, username, limit_amount):
   for link in links2:
     
     #print ("\n", counter , "/", len(links2))
-	print ("►►Scrapping posts: ", counter , "/", len(links2), end="\r")
+    print ("►►Scrapping posts: ", counter , "/", len(links2), end="\r")
     counter = counter + 1
     browser.get(link)
     try:
