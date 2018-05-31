@@ -9,14 +9,14 @@ import requests
 def get_user_info(browser):
   """Get the basic user info from the profile screen"""
 
-  container = browser.find_element_by_class_name('_mesn5')
-  img_container = browser.find_element_by_class_name('_b0acm')
+  container = browser.find_element_by_class_name('v9tJq')
+  img_container = browser.find_element_by_class_name('XjzKX')
 
-  infos = container.find_elements_by_class_name('_t98z6')
+  infos = container.find_elements_by_class_name('-nal3')
                            
-  alias_name = container.find_element_by_class_name('_ienqf').find_element_by_tag_name('h1').text
+  alias_name = container.find_element_by_class_name('nZSzR').find_element_by_tag_name('h1').text
   try:
-    bio = container.find_element_by_class_name('_tb97a').find_element_by_tag_name('span').text                      
+    bio = container.find_element_by_class_name('-vDIg').find_element_by_tag_name('span').text                      
   except:
     print ("Bio is empty", "\n")
     bio = ""
@@ -43,15 +43,15 @@ def get_user_info(browser):
 def extract_post_info(browser):
   """Get the information from the current post"""
 
-  post = browser.find_element_by_class_name('_622au')
+  post = browser.find_element_by_class_name('M9sTE')
 
   # Get caption
   caption = ''
   try:
-    username = post.find_element_by_class_name('_iadoq').text
-    caption_username = post.find_element_by_class_name('_b0tqa').find_element_by_class_name('_ezgzd').find_element_by_tag_name('a').text
+    username = post.find_element_by_class_name('nJAzx').text
+    caption_username = post.find_element_by_class_name('Xl2Pu').find_element_by_class_name('gElp9').find_element_by_tag_name('a').text
     if username == caption_username:
-        caption = post.find_element_by_class_name('_b0tqa').find_element_by_class_name('_ezgzd').find_element_by_tag_name('span').text
+        caption = post.find_element_by_class_name('Xl2Pu').find_element_by_class_name('gElp9').find_element_by_tag_name('span').text
   except:
     pass
 
@@ -63,7 +63,7 @@ def extract_post_info(browser):
   lng = ''
   try:
     # Location url and name
-    x = post.find_element_by_class_name('_60iqg').find_elements_by_tag_name('a')
+    x = post.find_element_by_class_name('M30cS').find_elements_by_tag_name('a')
     location_url = x[0].get_attribute('href')
     location_name = x[0].text
 
@@ -129,7 +129,7 @@ def extract_post_info(browser):
       tags = comments[0].text
 
     tags = findall(r'#[A-Za-z0-9]*', tags)
-    print (len(user_commented_list), " comments.")
+	
     return caption, location_url, location_name, location_id, lat, lng, img, tags, int(likes), int(len(comments) - 1), date
 
                                                   
@@ -159,7 +159,7 @@ def extract_information(browser, username, limit_amount):
         'posts': "ERROR"     
     }
     return inf_err
-  prev_divs = browser.find_elements_by_class_name('_70iju')
+  prev_divs = browser.find_elements_by_class_name('Nnq7C')
 
 
   try:
@@ -192,7 +192,7 @@ def extract_information(browser, username, limit_amount):
         if "/p/" in link:
           links2.append(link) 
       links2 = list(set(links2))   
-      print ("►►Scrolling posts: ", len(links2), "/", num_of_posts, end="\r")
+      print ("►►Scrolling posts:", len(links2), "/", num_of_posts, end="\r")
       body_elem.send_keys(Keys.END)
       sleep(1.5)
    
@@ -229,13 +229,12 @@ def extract_information(browser, username, limit_amount):
   post_infos = []
 
   counter = 1
-  
+  print("\n")
   for link in links2:
     
     #print ("\n", counter , "/", len(links2))
+	print ("►►Scrapping posts: ", counter , "/", len(links2), end="\r")
     counter = counter + 1
-    
-    print ("►►Scrapping posts: ", counter , "/", len(links2), end="\r")
     browser.get(link)
     try:
       caption, location_url, location_name, location_id, lat, lng, img, tags, likes, comments, date = extract_post_info(browser)
